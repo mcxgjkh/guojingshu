@@ -1,136 +1,29 @@
 <!DOCTYPE html>  
 <html lang="en">  
 <head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>满屏爱心掉落与彩色文字出现</title>  
-<style>  
-  body, html {  
-    height: 100%;  
-    margin: 0;  
-    overflow: hidden;  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    background-color: #000;  
-  }  
-  
-  .heart {  
-    position: absolute;  
-    width: 10px;  
-    height: 9px;  
-    background-color: red;  
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);  
-  }  
-  
-  .text-container {  
-    text-align: center;  
-    font-size: 24px;  
-    color: white;  
-    font-family: 'Arial', sans-serif;  
-    cursor: text;  
-  }  
-  
-  .caret {  
-    display: inline-block;  
-    width: 0;  
-    height: 0;  
-    border-left: 4px solid transparent;  
-    border-right: 4px solid transparent;  
-    border-bottom: 8px solid white;  
-    margin-left: 2px;  
-    animation: blink 1s infinite;  
-  }  
-  
-  @keyframes blink {  
-    0%, 100% { opacity: 1; }  
-    50% { opacity: 0; }  
-  }  
-  
-  .heart-container {  
-    position: relative;  
-    width: 100%;  
-    height: 100%;  
-    overflow: hidden;  
-    pointer-events: none;  
-  }  
-  
-  .heart {  
-    animation: fall 5s linear infinite;  
-  }  
-  
-  @keyframes fall {  
-    0% {  
-      transform: translateY(-100%);  
-    }  
-    100% {  
-      transform: translateY(100%);  
-    }  
-  }  
-</style>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>简单的扑克牌游戏</title>  
+    <style>  
+        .card {  
+            display: inline-block;  
+            padding: 5px 10px;  
+            margin: 5px;  
+            border: 1px solid black;  
+        }  
+        .player-hand {  
+            margin-bottom: 20px;  
+        }  
+    </style>  
 </head>  
 <body>  
+    <div id="player1" class="player-hand">玩家1的手牌：<br></div>  
+    <div id="player2" class="player-hand">玩家2的手牌：<br></div>  
+    <button id="dealBtn">发牌</button>  
+    <button id="playBtnPlayer1" disabled>玩家1出牌</button>  
+    <button id="playBtnPlayer2" disabled>玩家2出牌</button>  
+    <div id="result"></div>  
   
-<div class="heart-container">  
-  <!-- 爱心会动态添加到这个容器中 -->  
-</div>  
-  
-<div class="text-container" id="textContainer"></div>  
-  
-<script>  
-function createHeart() {  
-  const heart = document.createElement('div');  
-  heart.className = 'heart';  
-  heart.style.left = `${Math.random() * 100}%`; // 随机位置  
-  heart.style.backgroundColor = getRandomColor(); // 随机颜色  
-  const heartContainer = document.querySelector('.heart-container');  
-  heartContainer.appendChild(heart);  
-  
-  // 当爱心移出屏幕时，移除该元素  
-  heart.addEventListener('animationend', () => {  
-    heart.remove();  
-  });  
-}  
-  
-function getRandomColor() {  
-  const letters = '0123456789ABCDEF';  
-  let color = '#';  
-  for (let i = 0; i < 6; i++) {  
-    color += letters[Math.floor(Math.random() * 16)];  
-  }  
-  return color;  
-}  
-  
-function animateText(text) {  
-  const textContainer = document.getElementById('textContainer');  
-  let currentIndex = 0;  
-  const intervalId = setInterval(() => {  
-    if (currentIndex < text.length) {  
-      const char = text[currentIndex];  
-      const span = document.createElement('span');  
-      span.textContent = char;  
-      span.style.color = getRandomColor(); // 每个字符随机颜色  
-      if (char === ' ') {  
-        span.style.width = '0.5em'; // 给空格一些宽度  
-      }  
-      if (currentIndex < text.length - 1) {  
-        span.appendChild(document.createElement('span')).className = 'caret'; // 添加光标，但不在最后一个字符后  
-      }  
-      textContainer.appendChild(span);  
-      currentIndex++;  
-    } else {  
-      clearInterval(intervalId);  
-    }  
-  }, 500); // 调整这里的数字以改变字符出现的速度  
-}  
-  
-// 创建多个爱心  
-setInterval(createHeart, 100); // 每10ms创建一个爱心
-
-// 模拟文本逐个出现
-const textToAnimate = "笑宝你是神经病";
-animateText(textToAnimate);
-
-</script>
-</body> 
-</html> 
+    <script src="game.js"></script>  
+</body>  
+</html>
